@@ -1,10 +1,12 @@
 def label = "agent-${UUID.randomUUID().toString()}"
 def gitBranch = 'master'
 def docker_registry = "ghcr.io"  
-def imageName = "ghcr.io/shclub/edu12-backend"
+#def imageName = "ghcr.io/shclub/edu12-backend"
+def imageName = "ghcr.io/dragorse/edu12-backend"
 def fromImage = "ghcr.io/shclub/jre17-runtime:v1.0.0"
 def git_ops_name = "edu12-backend-gitops"
-def P_NAMESPACE = "edu30"
+#def P_NAMESPACE = "edu30"
+def P_NAMESPACE = "edu17"
 
 def TAG = getTag(gitBranch)
 
@@ -24,7 +26,8 @@ podTemplate(label: label, serviceAccount: 'jenkins-admin', namespace: P_NAMESPAC
        stage('Clone Git Project') {
             sh "pwd"
             echo 'Clone'
-            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/shclub/edu12-4.git'
+#            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/shclub/edu12-4.git'
+            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/dragorse/edu12-4.git'
             sh "ls"
         }
   //./mvnw clean package jib:build  -Dmaven.test.skip=true  \
