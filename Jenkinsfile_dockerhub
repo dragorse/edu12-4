@@ -1,16 +1,20 @@
 def label = "agent-${UUID.randomUUID().toString()}"
 def gitBranch = 'master'
 def docker_registry = "docker.io"  
-def imageName = "shclub/edu12-backend"
+#def imageName = "shclub/edu12-backend"
+def imageName = "dragorse/edu12-backend"
 def fromImage = "shclub/jre17-runtime:v1.0.0"
 def git_ops_name = "edu12-backend-gitops"
-def P_NAMESPACE = "edu30"
+#def P_NAMESPACE = "edu30"
+def P_NAMESPACE = "edu17"
 
 def TAG = getTag(gitBranch)
 
 podTemplate(label: label, serviceAccount: 'jenkins-admin', namespace: P_NAMESPACE,
     containers: [
-        containerTemplate(name: 'build-tools', image: 'ghcr.io/shclub/build-tool:v1.0.0', ttyEnabled: true, command: 'cat', privileged: true, alwaysPullImage: true)
+#        containerTemplate(name: 'build-tools', image: 'ghcr.io/shclub/build-tool:v1.0.0', ttyEnabled: true, command: 'cat', privileged: true, alwaysPullImage: true)
+#        ,containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:latest-jdk11', args: '${computer.jnlpmac} ${computer.name}')
+        containerTemplate(name: 'build-tools', image: 'ghcr.io/dragorse/build-tool:v1.0.0', ttyEnabled: true, command: 'cat', privileged: true, alwaysPullImage: true)
         ,containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:latest-jdk11', args: '${computer.jnlpmac} ${computer.name}')
     ],
     volumes: [
@@ -24,7 +28,8 @@ podTemplate(label: label, serviceAccount: 'jenkins-admin', namespace: P_NAMESPAC
        stage('Clone Git Project') {
             sh "pwd"
             echo 'Clone'
-            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/shclub/edu12-4.git'
+#            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/shclub/edu12-4.git'
+            git branch: 'master', credentialsId: 'github_ci', url: 'https://github.com/dragorse/edu12-4.git'
             sh "ls"
         }
                          //./mvnw clean package jib:build  -Dmaven.test.skip=true  \
